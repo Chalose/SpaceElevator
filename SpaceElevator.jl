@@ -101,13 +101,14 @@ function main2()
     fun2(r) = (r - Rₕ)*S_BC(r)
     f_Rc(x) = c1 + IntGL(fun2, Rₕ, x, 400)
     Rc = find_zero(f_Rc, 1.5*Rₕ)
+    println("电梯最远端离地 ", Rc/1e3, " (km)")
 
     # 计算全局张力(由于MB的作用，张力曲线有不连续性)
     T1 = [T_AB(r) for r = R₀:dr:Rₕ]
     T2 = [T_BC(r) for r = Rₕ+dr:dr:Rc]
     T = [T1; T2]
     lt = length(T)    # 避免数组维度问题
-    h = [0.0 + (i-1)*dr for i=1:lt]
+    h = [(0.0 + (i-1)*dr)/1e3 for i=1:lt]
     p1 = plot(h, T,
         xlabel="h (km)", 
         ylabel="T (N)",
